@@ -73,6 +73,12 @@ func MakeDeployHandler(functionNamespace string, clientset *kubernetes.Clientset
 			return
 		}
 
+		if len(request.Namespace) > 0 {
+			functionNamespace = request.Namespace
+		}
+
+		fmt.Printf("At faas-netes received deploy function: %s\n", functionNamespace)
+
 		if err := ValidateDeployRequest(&request); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
