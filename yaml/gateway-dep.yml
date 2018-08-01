@@ -13,7 +13,7 @@ spec:
       serviceAccountName: faas-controller
       containers:
       - name: gateway
-        image: openfaas/gateway:0.8.7
+        image: dironman/gateway:0.8.8
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -63,7 +63,7 @@ spec:
         - name: port
           value: "8081"
         - name: function_namespace
-          value: openfaas-fn
+          value: awesome
         - name: read_timeout
           value: "10"
         - name: write_timeout

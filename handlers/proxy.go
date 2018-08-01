@@ -35,8 +35,17 @@ func MakeProxy(functionNamespace string, timeout time.Duration) http.HandlerFunc
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		fmt.Printf("Processing function invocation: %s\n", r.URL.String())
+
 		if r.Body != nil {
 			defer r.Body.Close()
+		}
+
+		namespace, ok := r.URL.Query()["namespace"]
+		if ok {
+			functionNamespace = namespace[0]
+			r.URL.Query().Del("namespace")
+			fmt.Printf("Parsed namespace, invoking function via endpoint: %s\n", r.URL.String())
 		}
 
 		switch r.Method {

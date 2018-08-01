@@ -20,6 +20,13 @@ import (
 func MakeFunctionReader(functionNamespace string, clientset *kubernetes.Clientset) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		namespace, ok := r.URL.Query()["namespace"]
+
+		if ok {
+			functionNamespace = namespace[0]
+			fmt.Printf("List function at namespace :%s\n", functionNamespace)
+		}
+
 		functions, err := getServiceList(functionNamespace, clientset)
 		if err != nil {
 			log.Println(err)
